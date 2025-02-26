@@ -11,9 +11,32 @@ body {
     min-height: 100vh;
 }
 
+#title{
+    display: flex;
+}
+
+#left_title{
+    width: 66%;
+}
+
+#right_title{
+    margin-top: 1%;
+}
+
+select {
+    background: rgba(72, 59, 59, 0.3);
+    color: #fff;
+}
+
 h1 {
     text-align: center;
     color: #ffffff;
+    margin-bottom: 0;
+}
+h3{
+    text-align: right;
+    color: #ffffff;
+    margin-bottom: 0;
 }
 
 .chat-container {

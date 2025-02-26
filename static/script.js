@@ -1,4 +1,4 @@
-let id=Date.now();
+let id = Date.now();
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('messageForm');
@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const message = document.getElementById('messageInput').innerHTML;
+        const message = document.getElementById('messageInput').textContent;
+        const mode = document.getElementById('prompt-select').value;
         if (!message) return;
 
         addMessage(message, 'client');
@@ -27,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ id: id, question: message}),
+                body: JSON.stringify({ id: id, msg: message, mode: mode}),
             });
 
             if (response.ok) {
