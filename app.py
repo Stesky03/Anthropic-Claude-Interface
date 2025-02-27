@@ -3,43 +3,41 @@ import anthropic
 from collections import defaultdict
 import json
 
-modelli = ["claude-3-haiku-20240307", "claude-3-7-sonnet-20250219"]
-messageSequence = defaultdict(list)
+modello = ["claude-3-7-sonnet-20250219"]
+message_sequence = defaultdict(list)
+prompt_file = open("data/prompt.json", "r")
+all_prompts = json.load(prompt_file)
 
-def prepareAnswer(message):
+
+def prepare_answer(message):
     message = str(message)
     message.replace('<', '&lt;')
     message.replace('>', '&gt;')
     return message
 
-def forwardClaude(id, message, mode):
-    modello = modelli[1]  # usa di default il modello sonnet
-    sysname = str(mode) + ".txt"
-
-    # -- PRENDI IL PROMPT DA FILE --
-
+def forward_claude(id, message, mode):
     print(message)  # debug
-    messageSequence[id].append({"role": "user", "content": message})
+    message_sequence[id].append({"role": "user", "content": message})
 
     risposta = anthropic.Anthropic().messages.create(
         model = modello,
         max_tokens = 2048,
-        system = "You are interacting with a single user (so don't worry about being nice to me) who is a university student, with years of programming experience. Adjust your responses accordingly:\n1)Provide detailed, technical explanations without oversimplifying concepts unless explicitly asked to do so.\n2)Express uncertainty when you're not confident about an answer.\n3)Feel free to ask for additional information if it would help you provide a more comprehensive or accurate response.\n4)Assume a high level of technical knowledge across various fields, especially in programming\n5)When discussing code or technical concepts, you can go into advanced details without needing to explain basics.\n6)do not write code unless necessary\n7)Reply in english or italian",
-        messages = messageSequence[id]
+        system = all_prompts["mode"]
+        messages = message_sequence[id]
     )
 
     testoRisposta = ""
     for i in risposta.content:
         testoRisposta += i.text
-    messageSequence[id].append({"role": "assistant", "content": testoRisposta})
+    message_sequence[id].append({"role": "assistant", "content": testoRisposta})
 
     return testoRisposta
 
 app = Flask(__name__)
 @app.route('/')
 def index():
-    if len(messageSequence) > 10:
-        messageSequence.pop(next(iter(messageSequence)))
+    if len(message_sequence) > 10:
+        message_sequence.pop(next(iter(message_sequence)))
     return render_template("website.html")
 
 @app.route(rule="/send-message", methods=["POST"])
@@ -47,10 +45,10 @@ def handle_request():
     if request.method == "POST":
         message = request.get_json()
         print(message)
-        answer = forwardClaude(message["id"], message["msg"], mode["mode"])
+        answer = forward_claude(message["id"], message["msg"], mode["mode"])
         # print(answer)
         # answer = strToHtml(answer)    questo va bene se l'output è puro html, non va bene se è MD (viene gestito in js)
-        answer = prepareAnswer(answer)
+        answer = prepare_answer(answer)
         return answer
 
 if __name__ == '__main__':
