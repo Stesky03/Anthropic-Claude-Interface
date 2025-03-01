@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="{{url_for('static', filename='script.js')}}"></script>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoboGPT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+        <div id="title">
+            <div id="left_title">
+                <h1>BoboGPT</h1>
+            </div>
+            <div id="right_title">
+                <h3 id="modalita">modalità
+                <select name="prompt-select" id="prompt-select">
+                <option value="bobo">Bobo</option>
+                <option value="vanilla">Vanilla</option>
+                <option value="programmazione">Programmazione</option>
+                <option value="polipalle">Polipalle</option>
+                <option value="custom">Custom (WIP)</option>
+                </select>
+                </h3>
+            </div>
+        </div>
+        
+        <div id="chatBox"></div>
+        <form id="messageForm">
+            <div contenteditable="true" id="messageInput"></div>
+            <button type="submit">&#10003</button>
+        </form>
+    </div>
+</body>
+</html>
+

@@ -3,7 +3,7 @@ import anthropic
 from collections import defaultdict
 import json
 
-modello = ["claude-3-7-sonnet-20250219"]
+modello = "claude-3-7-sonnet-latest"
 message_sequence = defaultdict(list)
 prompt_file = open("data/prompt.json", "r")
 all_prompts = json.load(prompt_file)
@@ -22,7 +22,7 @@ def forward_claude(id, message, mode):
     risposta = anthropic.Anthropic().messages.create(
         model = modello,
         max_tokens = 2048,
-        system = all_prompts["mode"]
+        system = all_prompts[mode],
         messages = message_sequence[id]
     )
 
@@ -45,10 +45,10 @@ def handle_request():
     if request.method == "POST":
         message = request.get_json()
         print(message)
-        answer = forward_claude(message["id"], message["msg"], mode["mode"])
+        answer = forward_claude(message["id"], message["msg"], message["mode"])
         # print(answer)
         # answer = strToHtml(answer)    questo va bene se l'output è puro html, non va bene se è MD (viene gestito in js)
-        answer = prepare_answer(answer)
+        # answer = prepare_answer(answer)
         return answer
 
 if __name__ == '__main__':
