@@ -15,13 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const message = document.getElementById('messageInput').textContent;
+        const user_input = document.getElementById('messageInput').innerHTML;
+        addMessage(user_input, 'client');
+        
+        const message = user_input.replace(/<br>/g, '\n ');
         const mode = document.getElementById('prompt-select').value;
         if (!message) return;
-
-        addMessage(message, 'client');
         document.getElementById('messageInput').innerHTML="";
-
+        
         try {
             const response = await fetch('/send-message', {
                 method: 'POST',
