@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const mode = document.getElementById('prompt-select').value;
         if (!message) return;
-        document.getElementById('messageInput').innerHTML="";
+        document.getElementById('messageInput').value="";
         
         try {
             const response = await fetch('/send-message', {
