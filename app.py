@@ -9,12 +9,6 @@ prompt_file = open("data/prompt.json", "r")
 all_prompts = json.load(prompt_file)
 
 
-def prepare_answer(message):
-    message = str(message)
-    message.replace('<', '&lt;')
-    message.replace('>', '&gt;')
-    return message
-
 def forward_claude(id, message, mode):
     print(message)  # debug
     message_sequence[id].append({"role": "user", "content": message})
@@ -33,6 +27,7 @@ def forward_claude(id, message, mode):
 
     return testoRisposta
 
+
 app = Flask(__name__)
 @app.route('/')
 def index():
@@ -40,16 +35,16 @@ def index():
         message_sequence.pop(next(iter(message_sequence)))
     return render_template("website.html")
 
+
 @app.route(rule="/send-message", methods=["POST"])
 def handle_request():
     if request.method == "POST":
         message = request.get_json()
-        print(message)
+        print(message) # debug
         answer = forward_claude(message["id"], message["msg"], message["mode"])
         # print(answer)
-        # answer = strToHtml(answer)    questo va bene se l'output è puro html, non va bene se è MD (viene gestito in js)
-        # answer = prepare_answer(answer)
         return answer
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3302, threaded=True)

@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BoboGPT</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="style.css"> //da cancellare
 </head>
 <body>
     <div class="chat-container">
@@ -30,7 +31,7 @@
         
         <div id="chatBox"></div>
         <form id="messageForm">
-            <div contenteditable="true" id="messageInput"></div>
+            <textarea id="messageInput"></textarea>
             <button type="submit">&#10003</button>
         </form>
     </div>
