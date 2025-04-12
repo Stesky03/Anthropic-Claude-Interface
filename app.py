@@ -47,4 +47,4 @@ def handle_request():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3302, threaded=True)
+    app.run(host='0.0.0.0', port=51234, threaded=True)

@@ -28,7 +28,7 @@ select {
     color: #fff;
 }
 
-h1 {
+#bobotitolo {
     text-align: center;
     color: #ffffff;
     margin-bottom: 0;
@@ -60,7 +60,7 @@ h1 {
     padding: 10px 15px;
     border-radius: 18px;
     max-width: 80%;
-    white-space: pre-wrap;
+    white-space: normal;
 }
 
 .client {
